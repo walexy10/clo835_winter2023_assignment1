@@ -26,26 +26,26 @@ jobs:
         AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
         AWS_REGION: us-east-1
         
-    - name: Build the web app, tag, and push image to ECR
+    - name: Build the web app and push image to ECR
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: mywebapp
         IMAGE_TAG: v1.0
       run: |
-        cd my web_app/
+        cd web_app/
         ls -ltra
         # Docker build
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker ps
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG 
         
-    - name: Build sql, tag, and  push image to Amazon ECR
+    - name: Build sql and  push image to Amazon ECR
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: mysql
         IMAGE_TAG: v1.0
       run: |
-        cd my sql_app/
+        cd sql_app/
         ls -ltra
         # Docker build
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
